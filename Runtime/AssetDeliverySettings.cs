@@ -16,5 +16,20 @@ namespace BizSim.Google.Play.AssetDelivery
         public float DefaultTimeoutSeconds = 120f;
         public bool AutoStartStateListener = true;
         public string[] InstallTimePackNames = new string[0];
+
+        // All declared pack names (both install-time and on-demand).
+        // Used by Awake reconciliation (ADR-018) to scope which sessions to clean up.
+        public string[] AllDeclaredPackNames = new string[0];
+
+        // Enterprise subsystem settings (r2 / ADR-016 stall detector).
+        [UnityEngine.Range(5f, 300f)]
+        public float StallTimeoutSeconds = 30f;
+
+        // LRU cache disk budget in bytes. 0 = unlimited (ADR-029).
+        public long LruBudgetBytes = 0L;
+
+        // Development / local HTTP provider (ADR-025).
+        public bool   UseLocalHttpInDevelopmentBuild = false;
+        public string LocalHttpBaseUrl = "http://10.0.2.2:8080/packs/";
     }
 }
