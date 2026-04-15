@@ -105,13 +105,14 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
             EditorGUILayout.PropertyField(_settingsSO.FindProperty("UseLocalHttpInDevelopmentBuild"));
             EditorGUILayout.PropertyField(_settingsSO.FindProperty("LocalHttpBaseUrl"));
             EditorGUILayout.PropertyField(_settingsSO.FindProperty("PackDescriptors"), true);
-            EditorGUILayout.PropertyField(_settingsSO.FindProperty("CacheBudgetBytes"));
 
             EditorGUILayout.HelpBox(
                 "PackDescriptors.StablePackId must never be renamed without setting AllowUnsafeRename = true " +
                 "on that descriptor first. Renaming without this flag set will hard-fail your release build " +
                 "to protect existing installs (ADR-015).",
                 MessageType.Warning);
+
+            EditorGUILayout.PropertyField(_settingsSO.FindProperty("CacheBudgetBytes"));
         }
 
         private void DrawFirebaseSection()
