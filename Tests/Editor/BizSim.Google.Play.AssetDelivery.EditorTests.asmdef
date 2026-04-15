@@ -4,6 +4,7 @@
   "references": [
     "BizSim.Google.Play.AssetDelivery",
     "BizSim.Google.Play.AssetDelivery.Editor",
+    "BizSim.Google.Play.Editor.Core",
     "UnityEngine.TestRunner",
     "UnityEditor.TestRunner"
   ],
