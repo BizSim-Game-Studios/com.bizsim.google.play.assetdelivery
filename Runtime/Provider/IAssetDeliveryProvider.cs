@@ -57,5 +57,13 @@ namespace BizSim.Google.Play.AssetDelivery
     }
 
     /// <summary>Discriminates provider implementations; used by B6 inspector injection guard.</summary>
-    public enum ProviderKind { Real, Mock }
+    public enum ProviderKind
+    {
+        /// <summary>Production provider — Google Play Core AndroidAssetDeliveryProvider.</summary>
+        Real,
+        /// <summary>Mock provider — MockAssetDeliveryProvider (Editor / non-Android builds).</summary>
+        Mock,
+        /// <summary>Local HTTP provider — LocalHttpAssetDeliveryProvider (dev builds / emulator iteration).</summary>
+        LocalHttp,
+    }
 }

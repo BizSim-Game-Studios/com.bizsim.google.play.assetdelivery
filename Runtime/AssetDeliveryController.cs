@@ -86,6 +86,21 @@ namespace BizSim.Google.Play.AssetDelivery
             get { lock (_stateLock) { return new Dictionary<string, AssetPackState>(_tracked); } }
         }
 
+        /// <summary>
+        /// Kind of the active provider. Used by the Pack Inspector to gate error injection
+        /// (B6 — only allowed when Mock or LocalHttp).
+        /// </summary>
+        public ProviderKind ProviderKind => _provider?.Kind ?? ProviderKind.Mock;
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// Test-only: when true, analytics adapter calls are skipped for the NEXT state transition
+        /// (one-shot semantics). Set by the Pack Inspector Inject Error action before injection.
+        /// Clears automatically after the first post-injection state-changed event.
+        /// </summary>
+        internal bool SuppressAnalytics { get; set; }
+#endif
+
         // ─── Awake ────────────────────────────────────────────────────────────────
 
         private async void Awake()
@@ -359,6 +374,17 @@ namespace BizSim.Google.Play.AssetDelivery
                                 && attempt < maxAttempts;
                             if (retryable)
                             {
+#if UNITY_EDITOR
+                                // When SuppressAnalytics == true (injected error in Pack Inspector)
+                                // the developer wants to see the error screen, not a retry spinner.
+                                if (SuppressAnalytics)
+                                {
+                                    SuppressAnalytics = false;
+                                    throw new AssetDeliveryException(
+                                        $"Pack fetch failed with {lastError} (retry suppressed by SuppressAnalytics)",
+                                        lastError);
+                                }
+#endif
                                 SafeInvokeAnalytics(a => a.pad_fetch_failed(
                                     new PadFetchFailedEvent(lastError, attempt, true)));
                                 float delay = ComputeBackoff(baseDelay, attempt, jitter);
@@ -618,6 +644,13 @@ namespace BizSim.Google.Play.AssetDelivery
                     break;
             }
 
+#if UNITY_EDITOR
+            // One-shot suppress: skip analytics for the next event after an injected error,
+            // then clear the flag so subsequent real events fire normally.
+            bool suppressed = SuppressAnalytics;
+            if (suppressed) SuppressAnalytics = false;
+            if (!suppressed)
+#endif
             SafeInvokeAnalytics(a => a.pad_fetch_started(new PadFetchStartedEvent(1, false, 1))); // placeholder — real analytics in FetchGroupAsync
             try { OnPackStateChanged?.Invoke(packName, s); }
             catch (Exception ex) { BizSimLogger.Warning($"OnPackStateChanged handler threw: {ex.Message}"); }
