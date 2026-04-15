@@ -10,7 +10,8 @@
   "autoReferenced": true,
   "defineConstraints": [],
   "versionDefines": [
-    { "name": "com.google.firebase.analytics", "expression": "", "define": "BIZSIM_FIREBASE" }
+    { "name": "com.google.firebase.analytics", "expression": "", "define": "BIZSIM_FIREBASE" },
+    { "name": "com.unity.addressables", "expression": "", "define": "BIZSIM_ADDRESSABLES" }
   ],
   "noEngineReferences": false
 }
