@@ -1,0 +1,7 @@
+{
+  "name": "BizSim.Google.Play.AssetDelivery.Samples.BasicIntegration",
+  "rootNamespace": "BizSim.Google.Play.AssetDelivery.Samples.BasicIntegration",
+  "references": ["BizSim.Google.Play.AssetDelivery"],
+  "includePlatforms": [],
+  "autoReferenced": false
+}
