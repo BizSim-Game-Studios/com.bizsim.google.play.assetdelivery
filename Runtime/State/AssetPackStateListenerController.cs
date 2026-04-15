@@ -7,7 +7,9 @@ namespace BizSim.Google.Play.AssetDelivery
     /// </summary>
     internal sealed class AssetPackStateListenerController : IAssetPackStateListener
     {
+#pragma warning disable CS0067 // Event not invoked on non-Android stub path; Android branch invokes via proxy.
         public event System.Action<string, AssetPackState> OnStateUpdate;
+#pragma warning restore CS0067
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         private static bool _started;

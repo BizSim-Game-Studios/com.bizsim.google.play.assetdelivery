@@ -539,8 +539,13 @@ namespace BizSim.Google.Play.AssetDelivery
                         $"AssetBundle '{bundleFileName}' is already loaded; Unity does not permit two bundles with the same internal name.");
 
             float startTime = Time.unscaledTime;
-            var req = await UnityEngine.AssetBundle.LoadFromFileAsync(fullPath);
-            if (req == null)
+            var createRequest = UnityEngine.AssetBundle.LoadFromFileAsync(fullPath);
+            var loadTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            createRequest.completed += _ => loadTcs.TrySetResult(true);
+            await loadTcs.Task;
+
+            var bundle = createRequest.assetBundle;
+            if (bundle == null)
                 throw new AssetDeliveryException(
                     $"AssetBundle.LoadFromFileAsync returned null for '{fullPath}'",
                     AssetPackErrorCode.InternalError);
@@ -551,14 +556,14 @@ namespace BizSim.Google.Play.AssetDelivery
                 list = new List<WeakReference<UnityEngine.AssetBundle>>();
                 _loadedBundles[handle.PackName] = list;
             }
-            list.Add(new WeakReference<UnityEngine.AssetBundle>(req));
+            list.Add(new WeakReference<UnityEngine.AssetBundle>(bundle));
             CompactBundleRefs(handle.PackName);
 
             UpdateLastAccessed(handle.PackName);
             SafeInvokeAnalytics(a => a.pad_bundle_loaded(
                 new PadBundleLoadedEvent(Time.unscaledTime - startTime)));
 
-            return req;
+            return bundle;
         }
 
         /// <summary>

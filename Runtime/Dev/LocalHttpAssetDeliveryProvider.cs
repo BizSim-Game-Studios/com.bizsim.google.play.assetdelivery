@@ -116,7 +116,7 @@ namespace BizSim.Google.Play.AssetDelivery
             OnStateUpdate?.Invoke(packName, state);
         }
 
-        public async Task<AssetPackStates> GetPackStatesAsync(
+        public Task<AssetPackStates> GetPackStatesAsync(
             IReadOnlyList<string> packNames,
             float timeoutSeconds,
             CancellationToken ct)
@@ -129,7 +129,7 @@ namespace BizSim.Google.Play.AssetDelivery
                         : new AssetPackState(n, AssetPackStatus.NotInstalled,
                             AssetPackErrorCode.NoError, 0, 0, 0, DateTime.UtcNow);
             }
-            return new AssetPackStates(result);
+            return Task.FromResult(new AssetPackStates(result, DateTime.UtcNow));
         }
 
         public Task<AssetPackLocation?> GetPackLocationAsync(string packName, CancellationToken ct)
