@@ -2,6 +2,9 @@
   "name": "BizSim.Google.Play.AssetDelivery.Tests",
   "rootNamespace": "BizSim.Google.Play.AssetDelivery.Tests",
   "references": ["BizSim.Google.Play.AssetDelivery", "UnityEngine.TestRunner", "UnityEditor.TestRunner"],
+  "versionDefines": [
+    { "name": "com.unity.addressables", "expression": "", "define": "BIZSIM_ADDRESSABLES" }
+  ],
   "includePlatforms": [],
   "allowUnsafeCode": false,
   "overrideReferences": true,
