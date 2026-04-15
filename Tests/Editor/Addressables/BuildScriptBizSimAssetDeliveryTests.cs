@@ -22,7 +22,7 @@ namespace BizSim.Google.Play.AssetDelivery.Editor.EditorTests
         {
             var script = ScriptableObject.CreateInstance<BuildScriptBizSimAssetDelivery>();
             Assert.AreEqual("BizSim Asset Delivery", script.Name);
-            Object.DestroyImmediate(script);
+            UnityEngine.Object.DestroyImmediate(script);
         }
 
         // ─── CreateAssetMenu attribute presence ───────────────────────────────────
