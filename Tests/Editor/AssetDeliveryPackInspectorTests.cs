@@ -111,7 +111,7 @@ namespace BizSim.Google.Play.AssetDelivery.Editor.Tests
         public void ForceRemove_CallsRemovePackAsyncWithForceUnload()
         {
             // Verify RemovePackOptions struct supports ForceUnload = true.
-            var opts = new RemovePackOptions { ForceUnload = true };
+            var opts = new RemovePackOptions(forceUnload: true);
             Assert.IsTrue(opts.ForceUnload, "RemovePackOptions.ForceUnload must be settable to true");
         }
     }

@@ -1,6 +1,5 @@
 using System.IO;
 using NUnit.Framework;
-using UnityEditor.PackageManager;
 using UnityEditor;
 
 namespace BizSim.Google.Play.AssetDelivery.EditorTests
@@ -10,7 +9,8 @@ namespace BizSim.Google.Play.AssetDelivery.EditorTests
         private static string PackageRoot()
         {
             // Works for both file:-installed and Git-URL-installed packages.
-            var pkg = PackageInfo.FindForAssembly(typeof(AsmdefPlatformConstraintTest).Assembly);
+            var pkg = UnityEditor.PackageManager.PackageInfo.FindForAssembly(
+                typeof(AsmdefPlatformConstraintTest).Assembly);
             Assert.IsNotNull(pkg, "Cannot locate package from test assembly. " +
                                   "Ensure test asmdef references BizSim.Google.Play.AssetDelivery.");
             return pkg.resolvedPath;
