@@ -1,0 +1,7 @@
+{
+  "name": "BizSim.Google.Play.AssetDelivery.Samples.MockPresets",
+  "rootNamespace": "BizSim.Google.Play.AssetDelivery.Samples.MockPresets",
+  "references": ["BizSim.Google.Play.AssetDelivery"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": false
+}
