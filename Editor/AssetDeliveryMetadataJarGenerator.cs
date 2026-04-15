@@ -75,7 +75,7 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
             using (var archive = new ZipArchive(ms, ZipArchiveMode.Create, leaveOpen: true))
             {
                 var entry = archive.CreateEntry("META-INF/bizsim-assetdelivery-version.txt",
-                    CompressionLevel.Optimal);
+                    System.IO.Compression.CompressionLevel.Optimal);
                 using var entryStream = entry.Open();
                 entryStream.Write(versionBytes, 0, versionBytes.Length);
             }

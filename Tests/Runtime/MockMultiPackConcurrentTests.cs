@@ -27,7 +27,9 @@ namespace BizSim.Google.Play.AssetDelivery.Tests
 
             yield return new WaitForSeconds(1.2f);
 
-            var states = await p.GetPackStatesAsync(new[] { "p1", "p2", "p3" }, 5f, default);
+            var statesTask = p.GetPackStatesAsync(new[] { "p1", "p2", "p3" }, 5f, default);
+            while (!statesTask.IsCompleted) yield return null;
+            var states = statesTask.Result;
             Assert.AreEqual(AssetPackStatus.Completed, states.Packs["p1"].Status);
             Assert.AreEqual(AssetPackStatus.Completed, states.Packs["p2"].Status);
             Assert.AreEqual(AssetPackStatus.Completed, states.Packs["p3"].Status);

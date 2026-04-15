@@ -182,7 +182,7 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
                 if (Application.isPlaying && AssetDeliveryController.Instance != null)
                     _ = AssetDeliveryController.Instance.RemovePackAsync(
                         desc.StablePackId,
-                        new RemovePackOptions { ForceUnload = true });
+                        new RemovePackOptions(forceUnload: true));
                 else
                     Debug.LogWarning(BizSimLogger.Prefix + "Force Remove requires play mode.");
             }
