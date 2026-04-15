@@ -36,6 +36,14 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
 
         private void OnGUI()
         {
+            if (_settingsSO == null) OnEnable();
+            if (_settingsSO == null) return;
+
+            // Standard Unity SerializedObject pattern: single Update() at frame start,
+            // auto-apply at frame end if modifications occurred. Calling Update() mid-GUI
+            // (once per section) would revert pending edits and break checkbox toggles.
+            _settingsSO.Update();
+
             _scroll = EditorGUILayout.BeginScrollView(_scroll);
             DrawHeader();
             EditorGUILayout.Space(8);
@@ -43,10 +51,15 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
             EditorGUILayout.Space(8);
             DrawEnterpriseSection();
             EditorGUILayout.Space(8);
+            DrawApplyRevertReset();
+            EditorGUILayout.Space(8);
             DrawFirebaseSection();
             EditorGUILayout.Space(8);
             DrawLinksSection();
             EditorGUILayout.EndScrollView();
+
+            // Keep unsaved edits alive in the SerializedObject; only write to disk on Apply.
+            _settingsSO.ApplyModifiedProperties();
         }
 
         // ─── Sections ─────────────────────────────────────────────────────────────
@@ -67,9 +80,6 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
                 " and become the controller's defaults at runtime.",
                 MessageType.Info);
 
-            if (_settingsSO == null) OnEnable();
-            _settingsSO.Update();
-
             // r1 base fields
             EditorGUILayout.PropertyField(_settingsSO.FindProperty("LogsEnabled"));
             EditorGUILayout.PropertyField(_settingsSO.FindProperty("LogLevel"));
@@ -84,16 +94,11 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
                 "InstallTimePackNames should match the pack names declared as deliveryType = \"install-time\" " +
                 "in your host project's build.gradle. See the Build Gradle Guide link below.",
                 MessageType.None);
-
-            EditorGUILayout.Space();
-            DrawApplyRevertReset();
         }
 
         private void DrawEnterpriseSection()
         {
             EditorGUILayout.LabelField("Enterprise Settings (r2)", EditorStyles.boldLabel);
-            if (_settingsSO == null) OnEnable();
-            _settingsSO.Update();
 
             EditorGUILayout.PropertyField(_settingsSO.FindProperty("StallTimeoutSeconds"));
             EditorGUILayout.PropertyField(_settingsSO.FindProperty("LruBudgetBytes"));
@@ -107,9 +112,6 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
                 "on that descriptor first. Renaming without this flag set will hard-fail your release build " +
                 "to protect existing installs (ADR-015).",
                 MessageType.Warning);
-
-            EditorGUILayout.Space();
-            DrawApplyRevertReset();
         }
 
         private void DrawFirebaseSection()
@@ -159,12 +161,17 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
             {
                 if (GUILayout.Button("Apply"))
                 {
-                    _settingsSO.ApplyModifiedProperties();
+                    // Flush pending edits to the SerializedObject's backing asset,
+                    // then write the asset to disk.
+                    _settingsSO.ApplyModifiedPropertiesWithoutUndo();
                     AssetDeliverySettingsAsset.Save();
                     BizSimLogger.InvalidateCache();
+                    // Force a re-sync so the next Update() reads the freshly saved asset.
+                    _settingsSO.Update();
                 }
                 if (GUILayout.Button("Revert"))
                 {
+                    // Discard pending in-memory edits and re-read from the asset.
                     _settingsSO.Update();
                 }
                 if (GUILayout.Button("Reset to defaults"))
