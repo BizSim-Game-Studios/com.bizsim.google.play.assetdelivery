@@ -1,0 +1,23 @@
+{
+  "name": "com.bizsim.google.play.assetdelivery",
+  "displayName": "BizSim Google Play Asset Delivery Bridge",
+  "description": "Unity bridge for the Google Play Asset Delivery API (v2.3.0). Supports on-demand, fast-follow, and install-time asset packs with per-pack state streaming, cellular confirmation flow, and a mock provider for editor testing.",
+  "version": "1.0.0",
+  "unity": "6000.0",
+  "changelogUrl": "https://github.com/BizSim-Game-Studios/com.bizsim.google.play.assetdelivery/blob/main/CHANGELOG.md",
+  "documentationUrl": "https://github.com/BizSim-Game-Studios/com.bizsim.google.play.assetdelivery/blob/main/README.md",
+  "author": { "name": "BizSim Game Studios", "url": "https://github.com/BizSim-Game-Studios" },
+  "contributors": [ { "name": "Aşkın Ceyhan", "url": "https://github.com/AskinCeyhan" } ],
+  "company": "BizSim Game Studios",
+  "homepage": "https://www.bizsim.com",
+  "license": "MIT",
+  "keywords": ["google-play", "asset-delivery", "asset-packs", "on-demand", "fast-follow", "install-time", "android"],
+  "repository": { "type": "git", "url": "https://github.com/BizSim-Game-Studios/com.bizsim.google.play.assetdelivery.git" },
+  "samples": [
+    { "displayName": "Basic Integration", "description": "BasicFetch + OnDemandLevelLoader + CellularConfirmation samples covering the three delivery modes.", "path": "Samples~/BasicIntegration" },
+    { "displayName": "Mock Config Presets", "description": "14 pre-configured mock scenarios covering install-time, fast-follow, on-demand, cellular confirmation, and error paths.", "path": "Samples~/MockPresets" }
+  ],
+  "dependencies": {
+    "com.google.external-dependency-manager": "1.2.187"
+  }
+}
