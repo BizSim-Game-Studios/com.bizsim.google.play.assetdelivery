@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2026-04-15
 
 ### Added
+- Addressables integration via `BuildScriptBizSimAssetDelivery` custom build script — consumers can deliver Addressables groups as asset packs routed through BizSim's enterprise runtime (stall detector, retry policy, Pack Inspector, analytics catalog, 14 mock presets). See `Documentation~/ADDRESSABLES_INTEGRATION.md`.
 - Initial release of the Google Play Asset Delivery bridge for Unity.
 - `AssetDeliveryController` singleton with `FetchAsync`, `GetPackStatesAsync`, `GetPackLocationAsync`, `GetPackLocationsAsync`, `CancelAsync`, `RemovePackAsync`, `ShowConfirmationDialogAsync`.
 - Per-pack install state stream via `OnPackStateChanged` event + `ReadStatesAsync(ct)` async iteration yielding full-dictionary snapshots.
