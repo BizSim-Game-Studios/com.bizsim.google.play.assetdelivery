@@ -1,0 +1,16 @@
+{
+  "name": "BizSim.Google.Play.AssetDelivery.UniTask",
+  "rootNamespace": "BizSim.Google.Play.AssetDelivery.UniTask",
+  "references": ["BizSim.Google.Play.AssetDelivery"],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": ["BIZSIM_UNITASK"],
+  "versionDefines": [
+    { "name": "com.cysharp.unitask", "expression": "", "define": "BIZSIM_UNITASK" }
+  ],
+  "noEngineReferences": false
+}

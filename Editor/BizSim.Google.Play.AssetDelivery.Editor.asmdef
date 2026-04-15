@@ -1,0 +1,17 @@
+{
+  "name": "BizSim.Google.Play.AssetDelivery.Editor",
+  "rootNamespace": "BizSim.Google.Play.AssetDelivery.Editor",
+  "references": [
+    "BizSim.Google.Play.AssetDelivery",
+    "BizSim.Google.Play.Editor.Core"
+  ],
+  "includePlatforms": ["Editor"],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
