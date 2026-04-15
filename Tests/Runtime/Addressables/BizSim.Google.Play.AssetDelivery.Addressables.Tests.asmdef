@@ -1,0 +1,21 @@
+{
+  "name": "BizSim.Google.Play.AssetDelivery.Addressables.Tests",
+  "rootNamespace": "BizSim.Google.Play.AssetDelivery.Addressables.Tests",
+  "references": [
+    "BizSim.Google.Play.AssetDelivery",
+    "BizSim.Google.Play.AssetDelivery.Addressables",
+    "Unity.Addressables",
+    "Unity.ResourceManager",
+    "UnityEngine.TestRunner",
+    "UnityEditor.TestRunner"
+  ],
+  "includePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": true,
+  "precompiledReferences": ["nunit.framework.dll"],
+  "autoReferenced": false,
+  "defineConstraints": ["UNITY_INCLUDE_TESTS", "BIZSIM_ADDRESSABLES"],
+  "versionDefines": [
+    { "name": "com.unity.addressables", "expression": "", "define": "BIZSIM_ADDRESSABLES" }
+  ]
+}

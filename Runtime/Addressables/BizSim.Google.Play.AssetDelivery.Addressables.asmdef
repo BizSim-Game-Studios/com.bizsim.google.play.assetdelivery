@@ -1,17 +1,18 @@
 {
-  "name": "BizSim.Google.Play.AssetDelivery.Editor",
-  "rootNamespace": "BizSim.Google.Play.AssetDelivery.Editor",
+  "name": "BizSim.Google.Play.AssetDelivery.Addressables",
+  "rootNamespace": "BizSim.Google.Play.AssetDelivery.Addressables",
   "references": [
     "BizSim.Google.Play.AssetDelivery",
-    "BizSim.Google.Play.Editor.Core"
+    "Unity.Addressables",
+    "Unity.ResourceManager"
   ],
-  "includePlatforms": ["Editor"],
+  "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
   "overrideReferences": false,
   "precompiledReferences": [],
-  "autoReferenced": true,
-  "defineConstraints": [],
+  "autoReferenced": false,
+  "defineConstraints": ["BIZSIM_ADDRESSABLES"],
   "versionDefines": [
     { "name": "com.unity.addressables", "expression": "", "define": "BIZSIM_ADDRESSABLES" }
   ],
