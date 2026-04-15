@@ -57,10 +57,9 @@ namespace BizSim.Google.Play.AssetDelivery.Tests
         [Test]
         public void BackoffMath_Attempt1_WithZeroJitter_ReturnsBaseDelay()
         {
-            // baseDelay * 2^(attempt-1) = 2 * 2^0 = 2
+            // baseDelay * 2^(attempt-1) = 2 * 2^0 = 2 (jitter=0 baseline)
             float baseDelay  = 2f;
             int   attempt    = 1;
-            float jitter     = 0f;
             float expected   = baseDelay * Mathf.Pow(2f, attempt - 1);
             // Raw backoff formula (same as controller)
             float raw        = baseDelay * Mathf.Pow(2f, attempt - 1);

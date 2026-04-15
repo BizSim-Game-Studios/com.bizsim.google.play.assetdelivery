@@ -141,11 +141,7 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
 
         private static void Check16KbPageAlignment(bool isRelease)
         {
-            string buildGradlePath =
-                "Assets/../Packages/com.bizsim.google.play.assetdelivery/Runtime/Plugins/Android/" +
-                "BizSimAssetDelivery.androidlib/build.gradle";
-
-            // Also check relative to the package folder directly.
+            // Check relative to the package folder directly.
             string[] candidates = new[]
             {
                 "Packages/com.bizsim.google.play.assetdelivery/Runtime/Plugins/Android/BizSimAssetDelivery.androidlib/build.gradle",
@@ -228,7 +224,7 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
         private static void CheckInstallTimePackSizes(AssetDeliverySettings settings)
         {
             if (settings?.PackDescriptors == null) return;
-            long warnThresholdBytes = 1L * 1024L * 1024L * 1024L; // 1 GB
+            // TODO(v1.1): enforce 1 GB warn threshold once pack size probe lands.
             foreach (var desc in settings.PackDescriptors)
             {
                 if (desc.DeliveryMode != DeliveryMode.InstallTime) continue;

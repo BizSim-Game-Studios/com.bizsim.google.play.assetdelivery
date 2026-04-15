@@ -64,7 +64,6 @@ namespace BizSim.Google.Play.AssetDelivery.Editor.Tests
         public void ErrorInjection_WithMockProvider_FiresOnErrorEvent()
         {
             // Simulate the injection logic directly (no play mode in editor tests).
-            bool errorFired = false;
             var state = new AssetPackState("test_pack", AssetPackStatus.Failed,
                 AssetPackErrorCode.NetworkError, 0, 0, 0, DateTime.UtcNow);
 
