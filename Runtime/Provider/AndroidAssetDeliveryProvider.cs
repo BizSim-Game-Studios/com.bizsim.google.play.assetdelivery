@@ -70,7 +70,9 @@ namespace BizSim.Google.Play.AssetDelivery
 
         public ProviderKind Kind => ProviderKind.Real;
 
+#pragma warning disable CS0067 // Event raised by AssetPackStateListenerController, not directly by this provider.
         public event Action<string, AssetPackState> OnStateUpdate;
+#pragma warning restore CS0067
 
         public void StartListening()  { /* delegated to AssetPackStateListenerController */ }
         public void StopListening()   { /* delegated to AssetPackStateListenerController */ }
@@ -197,7 +199,7 @@ namespace BizSim.Google.Play.AssetDelivery
             }
         }
 
-        public async Task<IReadOnlyDictionary<string, AssetPackLocation>> GetPackLocationsAsync(CancellationToken ct)
+        public Task<IReadOnlyDictionary<string, AssetPackLocation>> GetPackLocationsAsync(CancellationToken ct)
         {
             ct.ThrowIfCancellationRequested();
 
@@ -205,12 +207,11 @@ namespace BizSim.Google.Play.AssetDelivery
             if (bridge == null)
                 throw BridgeNotInitializedException("GetPackLocationsAsync");
 
-            // getPackLocations is not a direct Java API. We iterate using the bridge's
-            // getPackLocation for each installed pack discovered via getPackStates with a broad query.
-            // For production use, callers should pass specific pack names to GetPackLocationAsync.
-            // This overload returns an empty dict — consumers should prefer GetPackLocationAsync.
+            // getPackLocations is not a direct Java API. Consumers should prefer GetPackLocationAsync
+            // per pack. This overload returns an empty dict as a safe default.
             BizSimLogger.Warning("GetPackLocationsAsync: returns empty on Android; use GetPackLocationAsync per pack");
-            return new Dictionary<string, AssetPackLocation>();
+            return Task.FromResult<IReadOnlyDictionary<string, AssetPackLocation>>(
+                new Dictionary<string, AssetPackLocation>());
         }
 
         public Task CancelAsync(IReadOnlyList<string> packNames, CancellationToken ct)

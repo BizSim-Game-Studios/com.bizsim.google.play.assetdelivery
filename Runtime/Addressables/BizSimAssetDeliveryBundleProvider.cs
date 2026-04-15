@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.ResourceManagement;
 using UnityEngine.ResourceManagement.Exceptions;
 using UnityEngine.ResourceManagement.ResourceLocations;
@@ -48,7 +49,6 @@ namespace BizSim.Google.Play.AssetDelivery
         private bool OnWaitForCompletion()
         {
             Debug.LogError(BizSimLogger.Prefix + SyncMessage);
-            _provider.CompleteInterface(_handle);
             _handle.Complete<AssetBundleResource>(null, false, new RemoteProviderException(SyncMessage));
             return true;
         }
@@ -209,7 +209,7 @@ namespace BizSim.Google.Play.AssetDelivery
                 _fetchQueue.Remove(packId);
 
             if (_fetchQueue.Count == 0)
-                Addressables.ResourceManager.RemoveUpdateReceiver(this);
+                Addressables.ResourceManager.RemoveUpdateReciever(this); // sic — Unity API typo
         }
 
         // ─── Private helpers ──────────────────────────────────────────────────────
