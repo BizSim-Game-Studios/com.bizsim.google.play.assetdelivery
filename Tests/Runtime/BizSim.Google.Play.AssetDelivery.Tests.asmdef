@@ -1,0 +1,11 @@
+{
+  "name": "BizSim.Google.Play.AssetDelivery.Tests",
+  "rootNamespace": "BizSim.Google.Play.AssetDelivery.Tests",
+  "references": ["BizSim.Google.Play.AssetDelivery", "UnityEngine.TestRunner", "UnityEditor.TestRunner"],
+  "includePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": true,
+  "precompiledReferences": ["nunit.framework.dll"],
+  "autoReferenced": false,
+  "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+}
