@@ -1,7 +1,7 @@
 {
   "name": "com.bizsim.google.play.assetdelivery",
-  "displayName": "BizSim Google Play Asset Delivery Bridge",
-  "description": "Unity bridge for the Google Play Asset Delivery API (v2.3.0). Supports on-demand, fast-follow, and install-time asset packs with per-pack state streaming, cellular confirmation flow, and a mock provider for editor testing.",
+  "displayName": "BizSim Google Play Asset Delivery",
+  "description": "Unity package for Google Play Asset Delivery API (v2.3.0). On-demand, fast-follow, and install-time asset packs with per-pack state streaming, cellular confirmation, batch fetch, retry policy, and Addressables integration.",
   "version": "1.0.0",
   "unity": "6000.0",
   "changelogUrl": "https://github.com/BizSim-Game-Studios/com.bizsim.google.play.assetdelivery/blob/main/CHANGELOG.md",
