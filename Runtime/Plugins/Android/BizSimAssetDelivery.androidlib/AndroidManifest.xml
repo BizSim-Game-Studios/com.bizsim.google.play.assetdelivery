@@ -1,3 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bizsim.google.play.assetdelivery" />
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.bizsim.google.play.assetdelivery">
+
+    <!-- C5.2 predictive back gesture (Android 14+ / API 34+).
+         Cellular confirmation dialog is a system-managed Activity; predictive
+         back is handled by the system. Declared explicitly per
+         2026-04-17-enterprise-quality-bar 06-conventions/05-predictive-back-audit.md.
+         Consumer app-level android:enableOnBackInvokedCallback wins on
+         manifest-merger conflict. -->
+    <application
+        android:enableOnBackInvokedCallback="true"
+        tools:targetApi="33" />
+
+</manifest>

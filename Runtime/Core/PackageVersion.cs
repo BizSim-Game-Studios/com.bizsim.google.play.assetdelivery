@@ -2,7 +2,7 @@ namespace BizSim.Google.Play.AssetDelivery
 {
     internal static class PackageVersion
     {
-        public const string Current         = "1.1.0";
+        public const string Current         = "1.1.1";
         public const string ReleaseDate     = "2026-04-17";
 
         // === Canonical K8 fields (Plan G) ===
