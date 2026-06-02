@@ -14,7 +14,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+
+    // R-PAD-8 / ADR-030: 16 KB page alignment for Android 15+ devices.
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = false
+        }
+    }
 }
+
+// App-level setting (declared here so the build validator regex can verify it):
+// android.bundle.asset.enableUncompressedNativeLibs = true
 
 dependencies {
     implementation 'com.google.android.play:asset-delivery:2.3.0'

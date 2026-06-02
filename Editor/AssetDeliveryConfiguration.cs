@@ -1,3 +1,4 @@
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using BizSim.Google.Play.Editor.Core;
@@ -64,11 +65,20 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
 
         // ─── Sections ─────────────────────────────────────────────────────────────
 
+        private static string ResolveNativeSdkVersion()
+        {
+            const BindingFlags F = BindingFlags.Public | BindingFlags.Static;
+            var t = typeof(PackageVersion);
+            var f = t.GetField("NativeSdkVersion", F)
+                 ?? t.GetField("PlayCoreVersion", F);
+            return f?.GetRawConstantValue() as string ?? "unknown";
+        }
+
         private void DrawHeader()
         {
             EditorGUILayout.LabelField("BizSim Google Play Asset Delivery", EditorStyles.boldLabel);
             EditorGUILayout.LabelField($"Package version: {PackageVersion.Current}");
-            EditorGUILayout.LabelField($"Play Core asset-delivery: {PackageVersion.PlayCoreVersion}");
+            EditorGUILayout.LabelField($"Play Core asset-delivery: {ResolveNativeSdkVersion()}");
             EditorGUILayout.LabelField($"Released: {PackageVersion.ReleaseDate}");
         }
 

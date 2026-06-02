@@ -14,7 +14,7 @@ namespace BizSim.Google.Play.AssetDelivery
     /// the asset is missing at runtime.
     /// </remarks>
     [CreateAssetMenu(
-        menuName  = "BizSim/Google Play/AssetDelivery Settings",
+        menuName  = "BizSim/Google Play Service/AssetDelivery Settings",
         fileName  = "AssetDeliverySettings",
         order     = 0)]
     public sealed class AssetDeliverySettings : ScriptableObject

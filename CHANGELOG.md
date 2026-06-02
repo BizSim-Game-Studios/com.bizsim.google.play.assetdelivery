@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2] - 2026-06-03
+
+### Fixed
+- **CS0618 obsolete-symbol warning** in `AssetDeliveryConfiguration` and `AssetDeliveryMetadataJarGenerator` — both read `PackageVersion.PlayCoreVersion` (an `[Obsolete]` alias); now resolved via a reflection helper preferring the canonical `NativeSdkVersion`, matching the games/review/appupdate siblings. The metadata JAR's `playCoreVersion=` artifact key is **unchanged** (legacy key preserved per `unity-version-compatibility.md` Rule 3); only the obsolete symbol reference is removed.
+
+### Changed
+- **`AssetDeliverySettings` CreateAssetMenu path** unified to `BizSim/Google Play Service/AssetDelivery Settings`, matching the games/review/appupdate sibling convention. No effect on existing serialized assets.
+- **`.androidlib/build.gradle` Android 15+ hardening (ADR-030).** Added `packagingOptions.jniLibs.useLegacyPackaging = false` for 16 KB native-library page alignment (R-PAD-8), plus a documented `enableUncompressedNativeLibs` marker for the build validator regex.
+
+### Added
+- Missing `.meta` files for `PackageVersionSchemaTest` and `PredictiveBackManifestTest`.
+
 ## [1.1.1] - 2026-04-17
 
 ### Fixed

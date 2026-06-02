@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.IO.Compression;
+using System.Reflection;
 using System.Text;
 using UnityEditor;
 using UnityEditor.Build;
@@ -22,6 +23,15 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
     {
         // Must be > AssetDeliveryBuildValidator.callbackOrder (0) so the validator runs first.
         public int callbackOrder => 100;
+
+        private static string ResolveNativeSdkVersion()
+        {
+            const BindingFlags F = BindingFlags.Public | BindingFlags.Static;
+            var t = typeof(PackageVersion);
+            var f = t.GetField("NativeSdkVersion", F)
+                 ?? t.GetField("PlayCoreVersion", F);
+            return f?.GetRawConstantValue() as string ?? "unknown";
+        }
 
         private const string JarAssetPath =
             "Packages/com.bizsim.google.play.assetdelivery/Runtime/Plugins/Android/" +
@@ -66,7 +76,7 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
             string versionText =
                 $"version={PackageVersion.Current}\n" +
                 $"released={PackageVersion.ReleaseDate}\n" +
-                $"playCoreVersion={PackageVersion.PlayCoreVersion}\n";
+                $"playCoreVersion={ResolveNativeSdkVersion()}\n";
 
             byte[] versionBytes = Encoding.UTF8.GetBytes(versionText);
 
