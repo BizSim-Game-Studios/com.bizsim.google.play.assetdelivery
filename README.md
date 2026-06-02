@@ -1,24 +1,25 @@
 # BizSim Google Play Asset Delivery Bridge
 
-[![Unity 6000.0+](https://img.shields.io/badge/Unity-6000.0%2B-black?logo=unity)](https://unity.com/releases/unity-6)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
-[![Version 1.0.0](https://img.shields.io/badge/Version-1.0.0-blue)](CHANGELOG.md)
+[![Unity 6000.0+](https://img.shields.io/badge/Unity-6000.0%2B-blue.svg)](https://unity.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.md)
+[![Version](https://img.shields.io/badge/Version-1.1.2-orange.svg)](CHANGELOG.md)
 
-A Unity bridge for the [Google Play Asset Delivery API](https://developer.android.com/guide/playcore/asset-delivery) (`com.google.android.play:asset-delivery:2.3.0`). Supports **on-demand**, **fast-follow**, and **install-time** asset pack delivery modes, exposes a per-pack state stream, and ships with a mock provider so you can iterate in the Editor without a Play Store install.
+Unity bridge for the [Google Play Asset Delivery API](https://developer.android.com/guide/playcore/asset-delivery) (v2.3.0).
+Supports **on-demand**, **fast-follow**, and **install-time** asset pack delivery modes, exposes a per-pack state stream, and ships with a mock provider so you can iterate in the Editor without a Play Store install.
 
-> ⚠️ **Unofficial.** This package is maintained by BizSim Game Studios. It is not an official Google product and is not affiliated with Google.
+> **⚠️ Unofficial package.** This is a community-built Unity bridge for the Google Play Asset Delivery API. It is **not** an official Google product.
 
 ## Features
 
-- **Java-to-C# bridge** for `com.google.android.play:asset-delivery:2.3.0`
+- **Java-to-C# Bridge** — Play Core `AssetPackManager` wrapped in a main-thread-safe singleton
 - **Three delivery modes** — on-demand, fast-follow, and install-time asset packs
 - **Per-pack state stream** — `OnPackStateChanged` event plus `ReadStatesAsync(ct)` async iteration yielding full-dictionary snapshots
 - **`AssetPackState` classifier helpers** — `IsCompleted`, `IsFailed`, `RequiresCellularConfirmation`
-- **Mock provider** with 14 ScriptableObject presets covering all delivery modes + cellular confirmation + error paths
+- **Mock provider** — 14 ScriptableObject presets covering all delivery modes + cellular confirmation + error paths
 - **Cellular confirmation** via `showConfirmationDialog(Activity)` — no fragment shim required, any Activity works
-- **Optional Firebase Analytics adapter** guarded by `BIZSIM_FIREBASE`
-- **Optional UniTask support** guarded by `BIZSIM_UNITASK`
-- **Editor integration** via `editor.core` with the `BIZSIM_ASSETDELIVERY_INSTALLED` define auto-registered at editor load
+- **Analytics adapter** — Optional `IAssetDeliveryAnalyticsAdapter` with a Firebase implementation guarded by `BIZSIM_FIREBASE`
+- **UniTask support** — Optional extension assembly guarded by `BIZSIM_UNITASK`
+- **Editor integration** — Auto-registered `BIZSIM_ASSETDELIVERY_INSTALLED` define via `editor.core`
 
 ## Installation
 
@@ -47,18 +48,14 @@ If you already have other OpenUPM-distributed packages, you may already have thi
 ```json
 {
   "dependencies": {
-    "com.bizsim.google.play.assetdelivery": "https://github.com/BizSim-Game-Studios/com.bizsim.google.play.assetdelivery.git#v1.0.0"
+    "com.bizsim.google.play.assetdelivery": "https://github.com/BizSim-Game-Studios/com.bizsim.google.play.assetdelivery.git#v1.1.2"
   }
 }
 ```
 
-After the package imports, EDM4U is automatically resolved by UPM — no manual `.unitypackage` import required. EDM4U then resolves the Android Maven dependencies declared in `Editor/Dependencies.xml` (`com.google.android.play:asset-delivery:2.3.0`) at the next Android build, or immediately via `Assets → External Dependency Manager → Android Resolver → Force Resolve`.
+After the package imports, EDM4U is automatically resolved by UPM — no manual `.unitypackage` import required. EDM4U then resolves the Android Maven dependency declared in `Editor/Dependencies.xml` (`com.google.android.play:asset-delivery:2.3.0`) at the next Android build, or immediately via `Assets → External Dependency Manager → Android Resolver → Force Resolve`.
 
-## Known integration steps
-
-1. **Asset pack declaration** in your host project's `android/app/build.gradle` (and per-pack subproject `build.gradle`). See [Documentation~/BUILD_GRADLE_GUIDE.md](Documentation~/BUILD_GRADLE_GUIDE.md).
-2. **Install-time pack names** must be listed in `AssetDeliverySettings` (open `BizSim → Google Play → Asset Delivery → Configuration` and populate the `InstallTimePackNames` field).
-3. **`UnityPlayerActivity` compatibility** — this package uses `showConfirmationDialog(Activity)` which accepts ANY Activity. Classic Unity's `UnityPlayerActivity` and Unity 6's `GameActivity` both work without modification.
+**Asset pack setup.** Before fetching packs at runtime, declare each pack in your host project's `android/app/build.gradle` and per-pack subproject `build.gradle`. See [Documentation~/BUILD_GRADLE_GUIDE.md](Documentation~/BUILD_GRADLE_GUIDE.md). Install-time pack names must also be listed in `AssetDeliverySettings` — open `BizSim → Google Play → Asset Delivery → Configuration` and populate the `InstallTimePackNames` field.
 
 ## Quick Start
 
@@ -93,27 +90,43 @@ The package exposes all three delivery modes but does **not** auto-choose. The c
 
 ## Requirements
 
-- **Unity 6000.0+**
-- **Android** target platform
-- **EDM4U** (auto-resolved via OpenUPM scoped registry — see Installation)
-- **Google Play Asset Delivery library** `2.3.0` (resolved automatically via `Editor/Dependencies.xml`)
+- Unity 6000.0 or later
+- Android target platform
+- **[EDM4U](https://github.com/googlesamples/unity-jar-resolver) (External Dependency Manager for Unity)** — auto-resolved via OpenUPM scoped registry (see Installation)
+- Google Play Asset Delivery library 2.3.0 (resolved automatically via `Editor/Dependencies.xml`)
 
 ## Google Play Data Safety
 
-**No data collected by this package.** Play Core handles all communication with the Play Store directly; this bridge only relays method calls and result codes. The package has no PlayerPrefs persistence — every `FetchAsync` call queries Play Store fresh.
+### Data Collected
 
-When filling out your app's [Play Store Data Safety form](https://support.google.com/googleplay/android-developer/answer/10787469), this package does not require any new declarations. Full input text lives in [`Documentation~/DATA_SAFETY.md`](Documentation~/DATA_SAFETY.md).
+This package does **not** collect any user data. Play Core handles all communication with the Play Store directly; this bridge only relays method calls and result codes. The package has no `PlayerPrefs` persistence — every `FetchAsync` call queries the Play Store fresh.
+
+### Data NOT Collected or Shared
+
+- **No personal data** is collected by this package
+- **No data is shared** with third parties
+- **No network calls** are made by this package (Play Core handles all IPC to Google Play)
+
+### Play Console Data Safety Form
+
+When filling out the [Data Safety form](https://support.google.com/googleplay/android-developer/answer/10787469) in Google Play Console:
+
+1. **Data types**: None collected by this package
+2. **Collection purpose**: N/A
+3. **Shared with third parties**: No
+
+Full input text for the Data Safety form lives in [`Documentation~/DATA_SAFETY.md`](Documentation~/DATA_SAFETY.md).
 
 ## License
 
-Copyright (c) 2026 BizSim Game Studios.
-
-Released under the [MIT License](LICENSE.md).
+This package's C# and Java source code is licensed under the [MIT License](LICENSE.md) — Copyright (c) 2026 BizSim Game Studios.
 
 ## Third-Party Licenses
 
-| Library | Version | License |
-|---------|---------|---------|
-| `com.google.android.play:asset-delivery` | 2.3.0 | Apache 2.0 |
+This package does **not** bundle any Google SDK binaries. The native Android dependency is resolved at build time by [EDM4U](https://github.com/googlesamples/unity-jar-resolver) from the Google Maven repository (`maven.google.com`):
 
-Full attribution text in [NOTICES.md](NOTICES.md).
+| Dependency | Version | License |
+|-----------|---------|---------|
+| `com.google.android.play:asset-delivery` | 2.3.0 | [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0) |
+
+For full third-party license details, see [NOTICES.md](NOTICES.md).
