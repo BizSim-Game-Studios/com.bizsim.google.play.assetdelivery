@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3] - 2026-07-16
+
+### Fixed
+- Complete the `NOTICES.md` third-party attribution: add the transitive Google Play Services Tasks (Apache-2.0) dependency the JNI bridge marshals, and correct the `editor.core` entry (required by the Editor assembly, not optional).
+- Update the `getting-started.md` install example from the two-release-stale `#v1.0.0` to `#v1.1.2`, and remove a misplaced empty `[Unreleased]` section from `CHANGELOG.md`. No runtime change.
+
 ## [1.1.2] - 2026-06-03
 
 ### Fixed
