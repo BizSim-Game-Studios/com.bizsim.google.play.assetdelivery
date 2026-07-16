@@ -32,6 +32,18 @@ device to download and install asset packs. The package itself makes no direct n
 
 ---
 
+## Google Play Services Tasks (transitive)
+
+- **Library:** `com.google.android.gms:play-services-tasks` (transitive — pulled in by `com.google.android.play:asset-delivery`, not declared directly)
+- **Copyright:** Copyright Google LLC
+- **License:** [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+
+The JNI bridge marshals the GMS `Task` type returned by the asset-delivery manager, and the
+package keeps `com.google.android.gms.tasks.**` in its ProGuard rules. The resolved version is
+whatever `com.google.android.play:asset-delivery` pulls in transitively.
+
+---
+
 ## Unity Editor APIs
 
 This package uses Unity Editor APIs (`UnityEditor` namespace) for the configuration
@@ -47,5 +59,5 @@ window, custom inspectors, and build validators. These APIs are subject to the
 - **License:** [MIT License](https://github.com/BizSim-Game-Studios/com.bizsim.google.play.editor.core/blob/main/LICENSE.md)
 
 Used for shared editor utilities (package detection, scripting define management).
-Optional dependency — the package functions without it but the configuration window
-requires it.
+Required by the Editor assembly (`BizSim.Google.Play.AssetDelivery.Editor` references it): the
+runtime bridge compiles without it, but the Editor assembly will not compile if it is absent.

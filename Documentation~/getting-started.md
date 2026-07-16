@@ -32,7 +32,7 @@ Then add the package dependency:
 ```json
 {
   "dependencies": {
-    "com.bizsim.google.play.assetdelivery": "https://github.com/BizSim-Game-Studios/com.bizsim.google.play.assetdelivery.git#v1.0.0"
+    "com.bizsim.google.play.assetdelivery": "https://github.com/BizSim-Game-Studios/com.bizsim.google.play.assetdelivery.git#v1.1.2"
   }
 }
 ```

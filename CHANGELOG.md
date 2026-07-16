@@ -31,8 +31,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Deprecated
 - `PackageVersion.PlayCoreVersion` — now `[Obsolete]` alias of `NativeSdkVersion`. Removed in 2.0.0 per ADR-009.
 
-## [Unreleased]
-
 ## [1.0.0] - 2026-04-15
 
 ### Added
