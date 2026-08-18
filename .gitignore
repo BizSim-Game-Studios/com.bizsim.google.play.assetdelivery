@@ -16,3 +16,8 @@ DevelopmentPlans/
 .DS_Store
 Thumbs.db
 *.tmp
+
+# Generated at build time by the metadata-JAR step, never shipped from source.
+# No sibling package tracks one; committing it would drift the three-point version sync.
+Runtime/Plugins/Android/*.metadata.jar
+Runtime/Plugins/Android/*.metadata.jar.meta
