@@ -1,4 +1,4 @@
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
+#if DEBUG || UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +13,7 @@ namespace BizSim.Google.Play.AssetDelivery
     /// Local HTTP asset delivery provider (ADR-025, §C3). Implements <see cref="IAssetDeliveryProvider"/>
     /// by serving packs from a local Python HTTP server running on the dev machine.
     /// Enabled when <see cref="AssetDeliverySettings.UseLocalHttpInDevelopmentBuild"/> = true
-    /// in a DEVELOPMENT_BUILD or in the Editor.
+    /// in a development build (DEBUG) or in the Editor.
     ///
     /// Feature Interaction I7:
     ///   1. Analytics tag: events fire with source="local_http" via analytics adapter context.

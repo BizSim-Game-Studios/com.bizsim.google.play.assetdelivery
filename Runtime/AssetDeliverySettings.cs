@@ -36,7 +36,7 @@ namespace BizSim.Google.Play.AssetDelivery
         // ─── Mock / Development ───────────────────────────────────────────────────
 
         [Header("Mock / Development")]
-        [Tooltip("When true in a DEVELOPMENT_BUILD, use MockAssetDeliveryProvider instead of Play Core.")]
+        [Tooltip("When true in a development build (DEBUG), use MockAssetDeliveryProvider instead of Play Core.")]
         public bool UseMockInDevelopmentBuild = false;
 
         [Tooltip("Whether the analytics adapter is enabled at runtime by default.")]
@@ -80,7 +80,7 @@ namespace BizSim.Google.Play.AssetDelivery
         // ─── Local HTTP Dev Server (ADR-025) ─────────────────────────────────────
 
         [Header("Development — Local HTTP Provider (ADR-025)")]
-        [Tooltip("When true in a DEVELOPMENT_BUILD, use the local HTTP provider instead of Play Core.")]
+        [Tooltip("When true in a development build (DEBUG), use the local HTTP provider instead of Play Core.")]
         public bool UseLocalHttpInDevelopmentBuild = false;
 
         [Tooltip("Base URL of the local pack HTTP server. The ADB reverse-forwarded address 10.0.2.2:8080 " +

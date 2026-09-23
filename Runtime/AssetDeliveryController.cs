@@ -122,7 +122,7 @@ namespace BizSim.Google.Play.AssetDelivery
 
             // Step 2 — Select provider
 #if UNITY_ANDROID && !UNITY_EDITOR
-#if DEVELOPMENT_BUILD
+#if DEBUG
             if (_settings.UseMockInDevelopmentBuild)
             {
                 var mock         = new MockAssetDeliveryProvider(_mockConfig);
