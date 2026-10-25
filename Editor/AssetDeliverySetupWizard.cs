@@ -1,12 +1,10 @@
-using System.IO;
-using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
 namespace BizSim.Google.Play.AssetDelivery.Editor
 {
     /// <summary>
-    /// 6-step guided setup wizard (ADR-024, §C2).
+    /// 5-step guided setup wizard (ADR-024, §C2).
     /// Opens via <c>BizSim → Google Play → Asset Delivery → Getting Started</c>.
     /// On completion marks <c>EditorPrefs["BizSim.AssetDelivery.SetupWizardSeen"]</c> = true
     /// so it does not auto-open on subsequent editor launches.
@@ -14,8 +12,6 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
     public sealed class AssetDeliverySetupWizard : EditorWindow
     {
         private const string SeenPrefKey = "BizSim.AssetDelivery.SetupWizardSeen";
-        private const string ManifestPath = "Packages/manifest.json";
-        private const string OpenUPMScope = "com.google.external-dependency-manager";
         private const string DemoPackId   = "Demo_InstallTime";
 
         private Vector2 _scroll;
@@ -46,35 +42,28 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
                 () => EditorUserBuildSettings.SwitchActiveBuildTarget(
                     BuildTargetGroup.Android, BuildTarget.Android));
 
-            DrawStep(2, "OpenUPM scoped registry",
-                HasOpenUpmRegistry(),
-                "OpenUPM scoped registry is in Packages/manifest.json.",
-                "OpenUPM scoped registry is missing from Packages/manifest.json.",
-                "Add registry",
-                AddOpenUpmRegistry);
+            DrawStep(2, "External Dependency Manager installed",
+                HasEdm(),
+                "External Dependency Manager is installed.",
+                "External Dependency Manager not detected. Install com.unity.external-dependency-manager from the Unity Registry.",
+                "Install EDM",
+                InstallEdm);
 
-            DrawStep(3, "EDM4U installed",
-                HasEdm4U(),
-                "External Dependency Manager (EDM4U) is installed.",
-                "EDM4U not detected. Install it from OpenUPM or the Google APIs for Unity page.",
-                "Install EDM4U",
-                InstallEdm4U);
-
-            DrawStep(4, "Settings asset exists",
+            DrawStep(3, "Settings asset exists",
                 HasSettingsAsset(),
                 "AssetDeliverySettings.asset exists.",
                 "AssetDeliverySettings.asset not found.",
                 "Create Settings",
                 () => AssetDeliverySettingsAsset.LoadOrCreate());
 
-            DrawStep(5, "Pack declared",
+            DrawStep(4, "Pack declared",
                 HasAtLeastOnePack(),
                 "At least one AssetPackDescriptor is declared.",
                 "No packs declared in PackDescriptors.",
                 "Create demo pack",
                 AddDemoPack);
 
-            DrawStep(6, "Sample imported",
+            DrawStep(5, "Sample imported",
                 IsSampleImported(),
                 "BasicIntegration sample is imported.",
                 "BasicIntegration sample is not imported. Import it via Package Manager.",
@@ -133,13 +122,7 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
         private static bool IsAndroidPlatform()
             => EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android;
 
-        private static bool HasOpenUpmRegistry()
-        {
-            if (!File.Exists(ManifestPath)) return false;
-            return File.ReadAllText(ManifestPath).Contains(OpenUPMScope);
-        }
-
-        private static bool HasEdm4U()
+        private static bool HasEdm()
         {
             var type = System.Type.GetType("GooglePlayServices.PlayServicesResolver, Google.JarResolver");
             return type != null;
@@ -160,48 +143,14 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
             => AssetDatabase.IsValidFolder("Assets/Samples/BizSim Google Play Asset Delivery");
 
         private bool AllStepsPassed()
-            => IsAndroidPlatform() && HasOpenUpmRegistry() && HasEdm4U()
+            => IsAndroidPlatform() && HasEdm()
             && HasSettingsAsset() && HasAtLeastOnePack() && IsSampleImported();
 
         // ─── One-click fixes ──────────────────────────────────────────────────────
 
-        private static void AddOpenUpmRegistry()
+        private static void InstallEdm()
         {
-            if (!File.Exists(ManifestPath))
-            {
-                Debug.LogWarning(BizSimLogger.Prefix + "Packages/manifest.json not found.");
-                return;
-            }
-
-            string content = File.ReadAllText(ManifestPath);
-            if (content.Contains(OpenUPMScope))
-            {
-                Debug.Log(BizSimLogger.Prefix + "OpenUPM registry already present.");
-                return;
-            }
-
-            string registryBlock =
-                "\"scopedRegistries\": [\n" +
-                "    {\n" +
-                "      \"name\": \"package.openupm.com\",\n" +
-                "      \"url\": \"https://package.openupm.com\",\n" +
-                "      \"scopes\": [\n" +
-                "        \"com.google.external-dependency-manager\"\n" +
-                "      ]\n" +
-                "    }\n" +
-                "  ],\n  ";
-
-            // Insert before the "dependencies" key.
-            content = Regex.Replace(content, @"""dependencies""", registryBlock + "\"dependencies\"");
-            File.WriteAllText(ManifestPath, content);
-            AssetDatabase.Refresh();
-            Debug.Log(BizSimLogger.Prefix + "OpenUPM registry added to Packages/manifest.json.");
-        }
-
-        private static void InstallEdm4U()
-        {
-            UnityEditor.PackageManager.Client.Add(
-                "https://github.com/googlesamples/unity-jar-resolver.git?path=upm#v1.2.187");
+            UnityEditor.PackageManager.Client.Add("com.unity.external-dependency-manager@2.1.0");
         }
 
         private static void AddDemoPack()

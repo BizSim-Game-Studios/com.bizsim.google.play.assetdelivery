@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-10-25
+
+### Changed
+- **Depends on Unity's External Dependency Manager.** `package.json` declares
+  `com.unity.external-dependency-manager` 2.1.0 instead of `com.google.external-dependency-manager`
+  1.2.187 (Google archives EDM4U on 2026-10-26). `Editor/Dependencies.xml` is unchanged and
+  EDM reads it as before, so the resolved Android dependencies stay the same. The OpenUPM scoped
+  registry is no longer needed for EDM. Projects that still run EDM4U keep working: Unity asks
+  which manager stays active (`Assets > External Dependency Manager`). Build-validator messages
+  and README installation text follow.
+- The Getting Started wizard drops its OpenUPM-registry step and installs `com.unity.external-dependency-manager` instead (five steps, was six).
+
 ## [1.1.3] - 2026-07-16
 
 ### Fixed

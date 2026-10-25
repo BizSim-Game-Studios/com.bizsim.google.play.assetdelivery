@@ -29,18 +29,18 @@ namespace BizSim.Google.Play.AssetDelivery.Editor.Tests
         }
 
         [Test]
-        public void Step4_SettingsAssetCheck_PassesAfterLoadOrCreate()
+        public void Step3_SettingsAssetCheck_PassesAfterLoadOrCreate()
         {
-            // LoadOrCreate should ensure the asset exists so step 4 passes.
+            // LoadOrCreate should ensure the asset exists so step 3 passes.
             AssetDeliverySettingsAsset.LoadOrCreate();
             var settings = AssetDatabase.LoadAssetAtPath<AssetDeliverySettings>(
                 AssetDeliverySettings.AssetDatabasePath);
             Assert.IsNotNull(settings,
-                "Settings asset must exist after LoadOrCreate so step 4 badge is green");
+                "Settings asset must exist after LoadOrCreate so step 3 badge is green");
         }
 
         [Test]
-        public void Step5_AddDemoPack_AddsDescriptorEntry()
+        public void Step4_AddDemoPack_AddsDescriptorEntry()
         {
             var settings   = AssetDeliverySettingsAsset.LoadOrCreate();
             var serialized = new SerializedObject(settings);

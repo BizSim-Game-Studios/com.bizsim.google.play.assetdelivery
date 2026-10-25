@@ -37,15 +37,14 @@ namespace BizSim.Google.Play.AssetDelivery.Editor
 
             bool isRelease = report.summary.options.HasFlag(BuildOptions.Development) == false;
 
-            // r1.1 — EDM4U
+            // r1.1 — External Dependency Manager
             if (!HasEdm4U())
             {
                 Debug.LogWarning(BizSimLogger.Prefix +
-                    "EDM4U not detected at build time. The package declares " +
+                    "External Dependency Manager not detected at build time. The package declares " +
                     "'com.google.android.play:asset-delivery:2.3.0' in Editor/Dependencies.xml but " +
-                    "EDM4U must be installed and force-resolved first. " +
-                    "Add the OpenUPM scoped registry to Packages/manifest.json (see README.md) " +
-                    "then run Android Resolver → Force Resolve.");
+                    "com.unity.external-dependency-manager must be installed and force-resolved first. " +
+                    "Check Window → Package Manager, then run Android Resolver → Force Resolve.");
             }
 
             // r1.2 — Settings asset
