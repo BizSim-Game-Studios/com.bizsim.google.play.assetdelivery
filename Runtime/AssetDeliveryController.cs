@@ -92,6 +92,9 @@ namespace BizSim.Google.Play.AssetDelivery
         /// </summary>
         public ProviderKind ProviderKind => _provider?.Kind ?? ProviderKind.Mock;
 
+        /// <summary>False when the player has no Play Asset Delivery (iOS, standalone, WebGL).</summary>
+        public bool IsSupported => _provider != null && _provider.Kind != ProviderKind.Unsupported;
+
 #if UNITY_EDITOR
         /// <summary>
         /// Test-only: when true, analytics adapter calls are skipped for the NEXT state transition
@@ -138,10 +141,15 @@ namespace BizSim.Google.Play.AssetDelivery
                 _provider        = android;
                 _stateListener   = android;
             }
-#else
+#elif UNITY_EDITOR
             var mockProvider = new MockAssetDeliveryProvider(_mockConfig);
             _provider      = mockProvider;
             _stateListener = mockProvider;
+#else
+            // iOS, standalone, WebGL: no Play Asset Delivery and no mock in a player.
+            var unsupportedProvider = new UnsupportedAssetDeliveryProvider();
+            _provider      = unsupportedProvider;
+            _stateListener = unsupportedProvider;
 #endif
 
             // Register test injector so tests can retrieve the current provider.

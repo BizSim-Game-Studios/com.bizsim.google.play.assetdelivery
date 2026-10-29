@@ -65,5 +65,7 @@ namespace BizSim.Google.Play.AssetDelivery
         Mock,
         /// <summary>Local HTTP provider — LocalHttpAssetDeliveryProvider (dev builds / emulator iteration).</summary>
         LocalHttp,
+        /// <summary>No-op provider for players without Play Asset Delivery (iOS, standalone, WebGL).</summary>
+        Unsupported,
     }
 }
